@@ -1,0 +1,48 @@
+# Copy this file to config.yaml on the VPS, replace every REPLACE_* value,
+# and keep config.yaml out of Git. The application does not expand environment
+# variables inside YAML.
+
+server:
+  swaggerEnabled: false
+
+auth:
+  # Set to true only after HTTPS is configured.
+  secureCookies: false
+
+secrets:
+  # Generate with: openssl rand -hex 32
+  jwtSecret: "REPLACE_WITH_AT_LEAST_32_CHARACTERS"
+  # Generate with: openssl rand -base64 32
+  # Never rotate after credentials have been stored unless all credentials
+  # will be imported again.
+  credentialEncryptionKey: "REPLACE_WITH_BASE64_32_BYTE_KEY"
+
+bootstrapAdmin:
+  username: "admin"
+  password: "REPLACE_WITH_A_STRONG_ADMIN_PASSWORD"
+
+database:
+  driver: postgres
+  postgres:
+    # Use a newly rotated Neon pooled connection string. sslmode=require is
+    # mandatory. Quote the complete DSN because it contains '&'.
+    dsn: "postgresql://USER:PASSWORD@HOST/DB?sslmode=require&channel_binding=require"
+    # Conservative defaults for a single VPS and a Neon pooled endpoint.
+    maxOpenConns: 10
+    maxIdleConns: 2
+
+runtimeStore:
+  driver: memory
+
+deployment:
+  replicas: 1
+  clusterID: "grok2api-n"
+  sharedMedia: false
+
+media:
+  driver: local
+  local:
+    path: "./data/media"
+
+audit:
+  ledgerMode: enforce

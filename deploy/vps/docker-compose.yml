@@ -1,0 +1,23 @@
+name: grok2api-n
+
+services:
+  grok2api:
+    image: "${GROK2API_IMAGE:-ghcr.io/xuweio/grok2api-n:latest}"
+    container_name: grok2api-n
+    ports:
+      # Keep the admin/API endpoint private until a reverse proxy provides
+      # HTTPS. Access it through an SSH tunnel in the meantime.
+      - "127.0.0.1:${GROK2API_PORT:-8000}:8000"
+    environment:
+      TZ: "${TZ:-Asia/Shanghai}"
+    volumes:
+      - "./config.yaml:/run/grok2api/config.yaml:ro"
+      - "grok2api-data:/app/data"
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 30s
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  grok2api-data:
