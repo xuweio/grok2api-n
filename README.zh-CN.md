@@ -306,6 +306,10 @@ docker compose --profile flaresolverr up -d
 
 `config.yaml` 保存启动配置；Provider 和运维参数由管理端维护，未标记“重启生效”的设置支持热加载。
 
+使用 GitHub Actions 构建 GHCR 镜像，并在单台 Ubuntu VPS 上连接 Neon
+PostgreSQL 的部署方式，参见
+[`deploy/vps/README.zh-CN.md`](deploy/vps/README.zh-CN.md)。
+
 | 场景 | 数据库 | 运行态 | 媒体 |
 | :-- | :-- | :-- | :-- |
 | 单实例 | SQLite | Memory | 本地目录 |
